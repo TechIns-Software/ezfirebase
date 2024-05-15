@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "rollup -c",
+    "watch": "rollup -c --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "TechInsSoftware",
