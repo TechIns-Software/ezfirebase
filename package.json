@@ -6,6 +6,7 @@
   "scripts": {
     "build": "rollup -c",
     "watch": "rollup -c --watch",
+    "start": "node browsersync/start.cjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "TechInsSoftware",
