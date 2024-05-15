@@ -1,0 +1,23 @@
+{
+  "name": "pushnotiflib",
+  "version": "1.0.0",
+  "description": "A wrapper around firebase that shows push notifications, offering a hassle-free to setup api.",
+  "type": "module",
+  "scripts": {
+    "build": "rollup -c",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "TechInsSoftware",
+  "license": "MIT",
+  "dependencies": {
+    "firebase": "^10.12.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.5",
+    "@babel/preset-env": "^7.24.5",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "rollup": "^4.17.2"
+  }
+}
