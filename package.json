@@ -1,12 +1,12 @@
 {
-  "name": "pushnotiflib",
+  "name": "@techins/pushnotiflib",
   "version": "1.0.0",
   "description": "A wrapper around firebase that shows push notifications, offering a hassle-free to setup api.",
   "type": "module",
+  "main": "src/firebaseLib.js",
   "scripts": {
     "build": "rollup -c",
-    "watch": "rollup -c --watch",
-    "start": "node browsersync/start.cjs",
+    "start": "rollup -c --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "TechInsSoftware",

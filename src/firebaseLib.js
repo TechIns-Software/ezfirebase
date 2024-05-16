@@ -1,10 +1,17 @@
 import { initializeApp } from "firebase/app";
-import { getMessaging, onMessage, getToken, isSupported } from "firebase/messaging";
+import { getMessaging, onMessage, getToken, isSupported,useServiceWorker } from "firebase/messaging";
 
 
-function tokenHandle(currentToken,url) {
+function tokenHandle(messaging,currentToken,url) {
     if (currentToken) {
         console.log(currentToken);
+
+        onMessage(messaging, (payload) => {
+            console.log(payload)
+            const n = new Notification("LIB:"+payload.notification.title, {
+                body: "LIB:"+payload.notification.body,
+            });
+        });
     }
 }
 
@@ -15,11 +22,11 @@ function uponGrantedPermissionHandler(messaging,config,vapidKey,serviceWorkerUrl
         navigator.serviceWorker
         .register(serviceWorkerUrl, workerConfig)
         .then((registration) => {
+                
                 if (registration) {
-                    registration.active.postMessage(config);
-                    
+                    // registration.active.postMessage(config);
                     getToken(messaging, { vapidKey })
-                        .then((token)=>tokenHandle(token,tokenNotificationUrl))
+                        .then((token)=>tokenHandle(messaging,token,tokenNotificationUrl))
                         .catch(error => console.error(error));
                 }
             })
@@ -30,6 +37,7 @@ function uponGrantedPermissionHandler(messaging,config,vapidKey,serviceWorkerUrl
 }
 
 function pushNotificationInit(firebaseConfig,vapidKey,tokenNotificationUrl,serviceWorkerUrl,workerAsModule){
+    console.log("Hello")
     const app = initializeApp(firebaseConfig);
     isSupported().then((isSupported) => {
         
@@ -47,11 +55,7 @@ function pushNotificationInit(firebaseConfig,vapidKey,tokenNotificationUrl,servi
             if (permission === 'granted') {
                 uponGrantedPermissionHandler(messaging,firebaseConfig,vapidKey,serviceWorkerUrl,tokenNotificationUrl,workerAsModule)
 
-                onMessage(messaging, (payload) => {
-                    const n = new Notification(payload.notification.title, {
-                        body: payload.notification.body,
-                    });
-                });
+               
             }
         });
     }).catch((error)=>console.error(error));
