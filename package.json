@@ -9,7 +9,7 @@
     "start": "rollup -c --watch",
     "test": "echo \"Error: no test specified\" && exit 0",
     "prepare": "husky",
-    "generate-exports": "node ./generate-exports.js",
+    "generate-exports": "node ./generate-exports.cjs",
     "version": "echo $npm_package_version"
   },
   "author": "TechInsSoftware",
