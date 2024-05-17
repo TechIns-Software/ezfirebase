@@ -2,9 +2,24 @@ import { initializeApp } from "firebase/app";
 import { getMessaging, onMessage, getToken, isSupported } from "firebase/messaging";
 
 
-function tokenHandle(messaging,currentToken,url) {
+function tokenHandle(messaging,currentToken,tokenNotificationCallback) {
     if (currentToken) {
         console.log(currentToken);
+
+        if(tokenNotificationCallback){
+            callback(token,
+                (error)=>{
+                    if(!error){
+                        onMessage(messaging, (payload) => {
+                            console.log(payload)
+                            const n = new Notification(payload.notification.title, {
+                                body: payload.notification.body,
+                            });
+                        });
+                    }
+                }
+            )   
+        }
 
         onMessage(messaging, (payload) => {
             console.log(payload)
@@ -15,29 +30,28 @@ function tokenHandle(messaging,currentToken,url) {
     }
 }
 
-function uponGrantedPermissionHandler(messaging,config,vapidKey,serviceWorkerUrl,tokenNotificationUrl,workerAsModule){
+function uponGrantedPermissionHandler(messaging,vapidKey,workerAsModule,tokenNotificationCallback){
     if ('serviceWorker' in navigator) {
         const workerConfig = workerAsModule?{ type: 'module' }:undefined
         
+        const serviceWorkerUrl = `https://${window.location.hostname}/firebase-messaging-sw.js`
+
         navigator.serviceWorker
         .register(serviceWorkerUrl, workerConfig)
-        .then((registration) => {
-                
-                if (registration) {
-                    // registration.active.postMessage(config);
-                    getToken(messaging, { vapidKey })
-                        .then((token)=>tokenHandle(messaging,token,tokenNotificationUrl))
-                        .catch(error => console.error(error));
-                }
-            })
-            .catch(function (err) {
-                console.log('Service worker registration failed, error:', err)
-            })
+        .then((registration) => {        
+            if (registration) {
+                getToken(messaging, { vapidKey })
+                    .then((token)=>tokenHandle(messaging,token,tokenNotificationCallback))
+                    .catch(error => console.error(error));
+            }
+        }).catch(function (err) {
+            console.log('Service worker registration failed, error:', err)
+        })
     }
 }
 
 
-function pushNotificationInit(firebaseConfig,vapidKey,tokenNotificationUrl,serviceWorkerUrl,workerAsModule){
+function pushNotificationInit(firebaseConfig,vapidKey,serviceWorkerUrl,workerAsModule,tokenNotificationCallback){
     console.log("Hello")
     const app = initializeApp(firebaseConfig);
     isSupported().then((isSupported) => {
@@ -47,14 +61,20 @@ function pushNotificationInit(firebaseConfig,vapidKey,tokenNotificationUrl,servi
             return;
         }
 
+        if (!("Notification" in window)) {
+            throw "Browser Does not support Notifications"
+        }
+
         const messaging = getMessaging(app)        
+
+        tokenNotificationCallback = tokenNotificationCallback??function(token,callback){callback(false)};
 
         const handlePushNotificationCallback = (permission)=>{
             console.log('permiss', permission)
 
             if (permission === 'granted') {
                 console.log("Granted");
-                uponGrantedPermissionHandler(messaging,firebaseConfig,vapidKey,serviceWorkerUrl,tokenNotificationUrl,workerAsModule)
+                uponGrantedPermissionHandler(messaging,vapidKey,serviceWorkerUrl,workerAsModule,tokenNotificationCallback)
             }
         }
 
