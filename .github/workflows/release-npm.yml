@@ -39,6 +39,9 @@ jobs:
 
         - name: "Install npm dependencies"
           run: npm ci
+        
+        - name: "Build Js"
+          run: npm build
 
         - name: commit built package.json
           uses: actions-x/commit@v6

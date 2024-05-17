@@ -4,6 +4,28 @@
   "description": "A wrapper around firebase that shows push notifications, offering a hassle-free to setup api.",
   "type": "module",
   "main": "src/firebaseLib.js",
+  "module": "src/firebaseLib.js",
+  "author": "TechInsSoftware",
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "import": "./src/firebaseLib.js",
+      "require": "./src/firebaseLib.js"
+    },
+    "./firebase-messaging-sw": "./src/firebase-messaging-sw.js"
+  },
+  "browser": {
+    "./dist/firebaseLib.umd.js": "./dist/firebaseLib.umd.js",
+    "./dist/firebaseLib.esm.js": "./dist/firebaseLib.esm.js",
+    "./dist/firebase-messaging-sw.js": "./dist/firebase-messaging-sw.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TechIns-Software/jsUtils.git"
+  },
+  "bugs": {
+    "url": "https://github.com/TechIns-Software/jsUtils/issues"
+  },
   "scripts": {
     "build": "rollup -c",
     "start": "rollup -c --watch",
@@ -12,8 +34,6 @@
     "generate-exports": "node ./generate-exports.cjs",
     "version": "echo $npm_package_version"
   },
-  "author": "TechInsSoftware",
-  "license": "MIT",
   "dependencies": {
     "firebase": "^10.12.0"
   },
@@ -24,10 +44,7 @@
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "husky": "^9.0.11",
-    "rollup": "^4.17.2"
-  },
-  "exports": {
-    "./firebase-messaging-sw": "./src/firebase-messaging-sw.js",
-    "./firebaseLib": "./src/firebaseLib.js"
+    "rollup": "^4.17.2",
+    "sever": "^0.0.2"
   }
 }

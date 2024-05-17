@@ -21,8 +21,6 @@ test -n "$BASH_VERSION" || exec /bin/bash $0 "$@"
 
 IFS=' '
 
-npm run generate-exports
-git commit -m "Autoganarated exports" package.json 
 
 current_branch=$(git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,')
 
