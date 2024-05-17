@@ -8,8 +8,8 @@ function tokenHandle(messaging,currentToken,url) {
 
         onMessage(messaging, (payload) => {
             console.log(payload)
-            const n = new Notification("LIB:"+payload.notification.title, {
-                body: "LIB:"+payload.notification.body,
+            const n = new Notification(payload.notification.title, {
+                body: payload.notification.body,
             });
         });
     }
@@ -36,6 +36,7 @@ function uponGrantedPermissionHandler(messaging,config,vapidKey,serviceWorkerUrl
     }
 }
 
+
 function pushNotificationInit(firebaseConfig,vapidKey,tokenNotificationUrl,serviceWorkerUrl,workerAsModule){
     console.log("Hello")
     const app = initializeApp(firebaseConfig);
@@ -46,18 +47,28 @@ function pushNotificationInit(firebaseConfig,vapidKey,tokenNotificationUrl,servi
             return;
         }
 
-        const messaging = getMessaging(app)
+        const messaging = getMessaging(app)        
 
-
-        Notification.requestPermission().then(function (permission) {
+        const handlePushNotificationCallback = (permission)=>{
             console.log('permiss', permission)
 
             if (permission === 'granted') {
+                console.log("Granted");
                 uponGrantedPermissionHandler(messaging,firebaseConfig,vapidKey,serviceWorkerUrl,tokenNotificationUrl,workerAsModule)
-
-               
             }
-        });
+        }
+
+        Notification.requestPermission().then(handlePushNotificationCallback);
+
+        if ('permissions' in navigator) {
+            navigator.permissions.query({ name: 'notifications' }).then(function (notificationPerm) {
+              notificationPerm.onchange = function () {
+                console.log("User decided to change his seettings. New permission: " + notificationPerm.state);
+                handlePushNotificationCallback(notificationPerm.state)
+              };
+            });
+          }
+
     }).catch((error)=>console.error(error));
 }
 
