@@ -30,7 +30,7 @@ function tokenHandle(messaging,currentToken,tokenNotificationCallback) {
     }
 }
 
-function uponGrantedPermissionHandler(messaging,vapidKey,workerAsModule,tokenNotificationCallback){
+function uponGrantedPermissionHandler(messaging,vapidKey,tokenNotificationCallback,workerAsModule){
     if ('serviceWorker' in navigator) {
         const workerConfig = workerAsModule?{ type: 'module' }:undefined
         

@@ -20,7 +20,7 @@ In order for the firebase to work you must create a file `firebase-messaging-sw.
 https://^your_domain^/firebase-messaging-sw.js
 ```
 
-Keep in mind that `firebase-messaging-sw.js` **does not** work if not served as mentioned above.
+Keep in mind that `firebase-messaging-sw.js` **does not** work if not served in http as mentioned above.
 
 ## `firebase-messaging-sw.js` content
 
@@ -51,8 +51,67 @@ const firebaseConfig = {
 const vapidKey = ""; // Also generated from firebase console
 
 // Initialize Firebase  
-const wokerUrl = './firebase-messaging-sw.js';
-firebaseLib.pushNotificationInit(firebaseConfig,vapidKey,"",wokerUrl,true)
+firebaseLib.pushNotificationInit(firebaseConfig,vapidKey)
 ```
 
 Both `firebaseConfig` and `vapidKey` are retrieved from firebase console.
+
+# Further token reiceival handling:
+
+The function `pushNotificationInit` recieves the folloing arguments (with rthe order provided):
+
+* `firebaseConfig` that is the configuration received from firebase console
+* `vapidKey` that also received via firebase console
+* `tokenNotificationCallback` As documented bellow (optional)
+* `workerAsModule` that indicates whether worker should be loaded as a module or not.
+
+
+Upon token receival you can offer to be processed futher via providing a callback function at `tokenNotificationCallback`. 
+The function provided should be like this:
+
+```
+function(token,proceedCallback)
+{
+  // Send token via ajax or do stuff
+}
+```
+
+In order to receive messages you must call `proceedCallback` function. In order to indicate that the process sucessfully has been ended you should do:
+
+```
+function(token,proceedCallback)
+{
+  // Send token via ajax or do stuff
+  proceedCallback() // Success
+}
+```
+
+Otherwise you should provide the error as an argument:
+
+```
+function(token,proceedCallback)
+{
+  // Send token via ajax or do stuff
+  proceedCallback() // Success
+}
+```
+
+A full working example is:
+
+```
+const firebaseConfig = {
+    // Firebase config
+};
+            
+
+const vapidKey = ""; // Also generated from firebase console
+
+function handleToken(token,proceedCallback)
+{
+  // Send token via ajax or do stuff
+  proceedCallback()
+}
+
+// Initialize Firebase  
+firebaseLib.pushNotificationInit(firebaseConfig,vapidKey,handleToken)
+```
