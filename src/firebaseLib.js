@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getMessaging, onMessage, getToken, isSupported,useServiceWorker } from "firebase/messaging";
+import { getMessaging, onMessage, getToken, isSupported } from "firebase/messaging";
 
 
 function tokenHandle(messaging,currentToken,url) {
