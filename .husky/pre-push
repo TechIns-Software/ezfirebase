@@ -91,5 +91,6 @@ echo "Finished pushing the new commit"
 sleep 3
 git pull origin "$current_branch"
 
-echo "Avoiding double push"
+echo "Avoiding double push."
+echo "Push may fail but not be alarmed look the output above to ensure that releases has been pushed"
 exit 1
