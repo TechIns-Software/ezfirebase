@@ -79,8 +79,7 @@ echo "Version bumped to $new_version"
 
 echo "Keep package-lock.json up to spec"
 npm install
-git commit -m "AutoBump Version" package.json package-lock.json
-
+git commit -m "[Husky Hook] AutoBump Version [skip ci]" package.json package-lock.json
 
 # Push the new commit
 echo -e "\e[0;35mPushing the new commit\033[0m"
