@@ -1,6 +1,6 @@
 {
   "name": "@techins/pushnotiflib",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "description": "A wrapper around firebase that shows push notifications, offering a hassle-free to setup api.",
   "type": "module",
   "main": "src/firebaseLib.js",
