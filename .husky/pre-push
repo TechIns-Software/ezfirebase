@@ -83,19 +83,19 @@ git commit -m "AutoBump Version" package.json package-lock.json
 
 
 # Push the new commit
-echo "Pushing the new commit"
+echo -e "\e[0;35mPushing the new commit\033[0m"
 git push origin --no-verify "$current_branch"
 
 if [ $? == 1 ]; then
-  echo -e "\033[0;31mPushing changes (both bump version and released changed) gas failed\033[0m"
+  echo -e "\033[0;31mPushing changes (both bump version and released changed) has failed\033[0m"
   exit 1
 fi 
 
-echo "Finished pushing the new commit"
+echo -e "\e[0;35mFinished pushing the new commit\033[0m"
 
 sleep 3
 git pull origin "$current_branch"
 
 echo -e "\033[92mChanges have been pushed\033[0m"
-echo -e "\033[1;33mPush will fail and an error message will be displayed.\nBut \033[1mnot\033[1;33m be alarmed, look the output above to ensure that releases has been pushed\033[0m"
+echo -e "\033[1;33mPush bellow will fail and an error message will be displayed.\nBut \033[1mnot\033[1;33m be alarmed, look the output above to ensure that releases has been pushed\033[0m"
 exit 1
