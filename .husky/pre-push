@@ -30,9 +30,14 @@ if [ $current_branch != "master" ]; then
   exit 0
 fi
 
+echo "Fetching latest changes for ${current_branch}"
+git fetch origin "$current_branch"
+
+echo "Rebasing onto the latest changes from the remote branch"
+git rebase origin/"$current_branch"
+
 echo "Pushing ${current_branch}"
 
-git pull origin "$current_branch"
 
 current_version=$(npm run version -s)
 
