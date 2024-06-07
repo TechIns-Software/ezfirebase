@@ -81,6 +81,15 @@ echo "Keep package-lock.json up to spec"
 npm install
 git commit -m "[Husky Hook] AutoBump Version [skip ci]" package.json package-lock.json
 
+# Rebase onto the latest changes from the remote branch
+echo "Rebasing onto the latest changes from the remote branch"
+git pull --rebase origin "$current_branch"
+
+if [ $? -ne 0 ]; then
+  echo -e "\033[0;31mRebase failed. Please resolve conflicts and run the script again.\033[0m"
+  exit 1
+fi
+
 # Push the new commit
 echo -e "\e[0;35mPushing the new commit\033[0m"
 git push origin --no-verify "$current_branch"
