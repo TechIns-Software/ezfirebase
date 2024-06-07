@@ -21,11 +21,10 @@ test -n "$BASH_VERSION" || exec /bin/bash $0 "$@"
 
 IFS=' '
 
-
 current_branch=$(git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,')
 git pull origin "$current_branch"
 
-if [ $current_branch != "master" ]; then
+if [ $current_branch != "dev" ]; then
   echo "Ommiting version bump because current branch is ${current_branch}" 
   exit 0
 fi
