@@ -90,3 +90,6 @@ echo "Finished pushing the new commit"
 
 sleep 3
 git pull origin "$current_branch"
+
+echo "Avoiding double push"
+exit 1
