@@ -2,31 +2,29 @@ import { initializeApp } from "firebase/app";
 import { getMessaging, onMessage, getToken, isSupported } from "firebase/messaging";
 
 
+function messageHandle(payload){
+    const title =  payload.notification.title??"Uknown title";
+    const body = payload.notification.body??"Uknwon Message"  
+    const n = new Notification(title, {
+        body: body,
+    });
+}
+
 function tokenHandle(messaging,currentToken,tokenNotificationCallback) {
     if (currentToken) {
         console.log(currentToken);
 
-        if(tokenNotificationCallback){
-            callback(token,
+        if(typeof tokenNotificationCallback == 'function'){
+            tokenNotificationCallback(currentToken,
                 (error)=>{
                     if(!error){
-                        onMessage(messaging, (payload) => {
-                            console.log(payload)
-                            const n = new Notification(payload.notification.title, {
-                                body: payload.notification.body,
-                            });
-                        });
+                        onMessage(messaging, messageHandle);
                     }
                 }
             )   
+        } else {
+            onMessage(messaging, messageHandle);
         }
-
-        onMessage(messaging, (payload) => {
-            console.log(payload)
-            const n = new Notification(payload.notification.title, {
-                body: payload.notification.body,
-            });
-        });
     }
 }
 
