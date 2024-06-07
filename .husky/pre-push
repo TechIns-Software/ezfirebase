@@ -98,4 +98,3 @@ git pull origin "$current_branch"
 
 echo -e "\033[92mChanges have been pushed\033[0m"
 echo -e "\033[1;33mPush bellow will fail and an error message will be displayed.\nBut \033[1mnot\033[1;33m be alarmed, look the output above to ensure that releases has been pushed\033[0m"
-exit 1
