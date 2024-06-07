@@ -43,15 +43,6 @@ jobs:
         - name: "Build Js"
           run: npm run build
 
-        - name: commit built package.json
-          uses: actions-x/commit@v6
-          with:
-            email: actions@github.com
-            name: Mark Release as prerelease for npm
-            files: package.json
-            token: ${{ secrets.MY_SECRET_TOKEN }}
-            force: true
-
         - name: version
           id: version
           run: |
