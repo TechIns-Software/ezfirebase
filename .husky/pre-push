@@ -86,3 +86,6 @@ echo "Pushing the new commit"
 git push origin --no-verify "$current_branch"
 
 echo "Finished pushing the new commit"
+
+sleep 3
+git pull origin "$current_branch"
