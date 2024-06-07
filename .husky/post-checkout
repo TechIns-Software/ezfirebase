@@ -21,13 +21,14 @@ test -n "$BASH_VERSION" || exec /bin/bash $0 "$@"
 
 IFS=' '
 
-for var in "$@"; do
-    echo "$var"
-done
+
+if [ $3 -eq 0 ]; then
+  echo "Nor a new branch skipping"
+  exit 0
+fi
 
 current_branch=$(git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,')
 
-exit 0 
 
 if [[ ! $current_branch != release/* ]]; then
   echo "Ommiting version bump because current branch is ${current_branch}" 
