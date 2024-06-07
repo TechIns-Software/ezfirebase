@@ -17,13 +17,16 @@
 
 #!/bin/bash
 
+echo $3
+
 test -n "$BASH_VERSION" || exec /bin/bash $0 "$@"
 
 IFS=' '
 
-for var in "$@"; do
-    echo "$var"
-done
+if [ $3 != 0 ]; then
+  echo "Not a new Branch"
+  exit 0
+fi
 
 current_branch=$(git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,')
 
