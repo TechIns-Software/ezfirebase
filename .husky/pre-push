@@ -86,11 +86,16 @@ git commit -m "AutoBump Version" package.json package-lock.json
 echo "Pushing the new commit"
 git push origin --no-verify "$current_branch"
 
+if [ $! != 0 ]; then
+  echo -e "\033[0;31mPushing changes (both bump version and released changed) gas failed\033[0m"
+  exit 1
+fi 
+
 echo "Finished pushing the new commit"
 
 sleep 3
 git pull origin "$current_branch"
 
-echo "Avoiding double push."
-echo "Push may fail but not be alarmed look the output above to ensure that releases has been pushed"
+echo "\033[92mChanges have been pushed\033[0m"
+echo -e "\033[1;33mPush will fail and an error message will be displayed.\nBut \033[1mnot\033[1;33m be alarmed, look the output above to ensure that releases has been pushed\033[0m"
 exit 1
