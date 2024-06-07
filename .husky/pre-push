@@ -86,7 +86,7 @@ git commit -m "AutoBump Version" package.json package-lock.json
 echo "Pushing the new commit"
 git push origin --no-verify "$current_branch"
 
-if [ $! != 0 ]; then
+if [ $? == 1 ]; then
   echo -e "\033[0;31mPushing changes (both bump version and released changed) gas failed\033[0m"
   exit 1
 fi 
