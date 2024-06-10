@@ -1,6 +1,10 @@
 {
   "name": "@techins/pushnotiflib",
+<<<<<<< HEAD
   "version": "1.1.22",
+=======
+  "version": "1.1.26",
+>>>>>>> fc408c0 ([Husky Hook] AutoBump Version [skip ci])
   "description": "A wrapper around firebase that shows push notifications, offering a hassle-free to setup api.",
   "type": "module",
   "main": "src/firebaseLib.js",
@@ -46,7 +50,6 @@
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
-    "husky": "^9.0.11",
     "rollup": "^4.17.2",
     "sever": "^0.0.2"
   }

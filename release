@@ -17,20 +17,19 @@
 
 #!/bin/bash
 
-test -n "$BASH_VERSION" || exec /bin/bash $0 "$@"
-
-IFS=' '
 
 current_branch=$(git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,')
-git pull origin "$current_branch"
+
+echo $current_branch
 
 if [ $current_branch != "dev" ]; then
-  echo "Ommiting version bump because current branch is ${current_branch}" 
-  exit 0
+  echo "Ommiting version bump because current branch is ${current_branch}"
+  echo "Please commit current changes, once done run"
+  echo -e "    \033[0;32git checkout dev\033[0m"
+  exit 1
 fi
 
-echo "Pushing ${current_branch}"
-
+>>>>>>> fc408c0 ([Husky Hook] AutoBump Version [skip ci]):release
 current_version=$(npm run version -s)
 
 echo "Current version: $current_version"
@@ -38,6 +37,8 @@ echo "Current version: $current_version"
 patch_version=$(npx semver $current_version -i patch)
 minor_version=$(npx semver $current_version -i minor)
 major_version=$(npx semver $current_version -i major)
+
+version_num=""
 
 # Choose the version bump type
 PS3="Select the version bump type: "
@@ -47,14 +48,17 @@ select bump_type in "patch - Bump into ${patch_version}" "minor - Bump into ${mi
     "patch"*)
       # Increment version based on the chosen bump type
       new_version="patch"
+      version_num=$patch_version
       break
       ;;
     "minor"*)
         new_version="minor"
+        version_num=$minor_version
         break
         ;;
     "major"*)
         new_version="major"
+        version_num=$major_version
         break
         ;;
     "none"*)
@@ -76,18 +80,25 @@ echo "Version bumped to $new_version"
 
 echo "Keep package-lock.json up to spec"
 npm install
-git commit -m "[Husky Hook] AutoBump Version" package.json package-lock.json
 
-# Push the new commit
-echo -e "\e[0;35mPushing the new commit\033[0m"
-git push --force-with-lease origin --no-verify "$current_branch"
+git commit -m "[Auto script] AutoBump Version to ${new_version}" package.json package-lock.json
 
-if [ $? == 1 ]; then
-  echo -e "\033[0;31mPushing changes (both bump version and released changed) has failed\033[0m"
-  exit 1
+echo "Update Changelog"
+
+echo "# VERSION ${new_version}" | cat - CHANGELOG.md > temp && mv temp CHANGELOG.md
+
+echo "Opening editor to edit file"
+editor="$VISUAL"
+[ -z "$editor" ] && editor="$EDITOR"
+[ -z "$editor" ] && which editor >/dev/null && editor=editor
+[ -z "$editor" ] && which nano   >/dev/null && editor=nano
+[ -z "$editor" ] && which vi     >/dev/null && editor=vi
+[ -z "$editor" ] && editor=no_editor_found
+
+if [ "$editor" == 'no_editor_found']; then
+  echo "No editor has been found"
 fi
 
-echo -e "\e[0;35mFinished pushing the new commit\033[0m"
+$editor CHANGELOG.md
 
-echo -e "\033[92mChanges have been pushed\033[0m"
-echo -e "\033[1;33mPush bellow will fail and an error message will be displayed.\nBut \033[1mnot\033[1;33m be alarmed, look the output above to ensure that releases has been pushed\033[0m"
+git commit -m "Update Changelog" CHANGELOG.md
