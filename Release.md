@@ -34,7 +34,7 @@ The editor for the nessesery changes upon `CHANGELOG.md` is used with the follow
 
 In case of the latter press `I` to edit the file once done press `ESC` and type `:wq!`.
 
-## Deploy changed upon npm
+## Deploy changes upon npm
 
 ```
 git checkout master
@@ -47,3 +47,7 @@ This will result the trigger of a github actions that does the following:
 
 1. Tagging the version
 2. Releasing a new version upon npmjs.
+
+# Version tags
+
+The version tag will be retrieved from `package.json` and the `.github/workflows/release-npm.yml` github action will ctreate it alsongside the nessesary npmjs release.
