@@ -20,13 +20,23 @@
 
 current_branch=$(git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,')
 
-echo $current_branch
+echo -e "You are at branch \033[0;32$current_branch\033[0m"
 
 if [ $current_branch != "dev" ]; then
   echo "Ommiting version bump because current branch is ${current_branch}"
   echo "Please commit current changes, once done run"
   echo -e "    \033[0;32git checkout dev\033[0m"
   exit 1
+fi
+
+
+echo "Pulling any changes from remote"
+
+git pull origin dev
+
+if [ "$?" != "0" ]; then
+  echo "Unable to continue due ti unsucessfull pull"
+  exit $?
 fi
 
 current_version=$(npm run version -s)
@@ -70,6 +80,7 @@ select bump_type in "patch - Bump into ${patch_version}" "minor - Bump into ${mi
   esac
 done <&2
 
+
 echo "Bumping version to $new_version"
 
 # Update package.json with the new version
@@ -91,6 +102,7 @@ editor="$VISUAL"
 [ -z "$editor" ] && editor="$EDITOR"
 [ -z "$editor" ] && which editor >/dev/null && editor=editor
 [ -z "$editor" ] && which nano   >/dev/null && editor=nano
+[ -z "$editor" ] && which vim     >/dev/null && editor=vim
 [ -z "$editor" ] && which vi     >/dev/null && editor=vi
 [ -z "$editor" ] && editor=no_editor_found
 

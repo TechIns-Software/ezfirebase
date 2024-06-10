@@ -1,7 +1,10 @@
 .husky
 .github
 README.md
-Changelog.md
+CHANGELOG.md
 generate-exports.cjd
 rollup.config.js
 .gitignore
+*.md.swp
+Release.md
+release
