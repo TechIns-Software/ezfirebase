@@ -30,7 +30,7 @@ Once you have implemented the nessesare changed please perform a Pull Request so
 
 ### Licencing and Copyright ownership
 
-All changes will be releases under MIT licence. The copywright Holder is Techins (https://techins.gr/) and each contributed change will have techins as Copyright holder. By placing a new Pull request into this project you agree under these terms.
+All changes will be releases under MIT licence. The copywright Holder is Techins (https://techins.gr/) and each contributed change will have techins as Copyright holder. By placing a new Pull request into this project ένα  agree under these terms.
 
 ## Report Bugs or Ask questions regarding the library's usage.
 

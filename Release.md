@@ -8,13 +8,16 @@ Run:
 
 ```
 git checkout dev
+
 # Optional fetch any remote reference
 git fetch --all
+
 # Merge any feature branch into dev
 git merge ^any_feature_branch^
-./release
+
+bash ./release.sh
 ```
-The script `./release` will:
+The script `./release.sh` will:
 
 1. Bump the version
 2. Commit package.json and package.lock
@@ -30,3 +33,17 @@ The editor for the nessesery changes upon `CHANGELOG.md` is used with the follow
 2. vi
 
 In case of the latter press `I` to edit the file once done press `ESC` and type `:wq!`.
+
+## Deploy changed upon npm
+
+```
+git checkout master
+git merge dev
+git push origin dev
+git push origin master
+```
+
+This will result the trigger of a github actions that does the following:
+
+1. Tagging the version
+2. Releasing a new version upon npmjs.
