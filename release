@@ -94,10 +94,10 @@ editor="$VISUAL"
 [ -z "$editor" ] && which vi     >/dev/null && editor=vi
 [ -z "$editor" ] && editor=no_editor_found
 
-if [ "$editor" == 'no_editor_found']; then
+if [ "$editor" == 'no_editor_found' ]; then
   echo "No editor has been found"
 fi
 
 $editor CHANGELOG.md
 
-git commit -m "Update Changelog" CHANGELOG.md
+git commit -m "[Auto script] Updated Changelog" CHANGELOG.md
