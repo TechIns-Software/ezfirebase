@@ -1,5 +1,6 @@
-# VERSION 1.1.27
-Updated Releasde script
+# VERSION 1.1.28
+
+Updated Release script and workflow	
 
 # VERSION 1.1.0
 
