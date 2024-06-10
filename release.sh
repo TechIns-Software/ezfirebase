@@ -20,7 +20,7 @@
 
 current_branch=$(git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,')
 
-echo -e "You are at branch \033[0;32$current_branch\033[0m"
+echo -e "You are at branch \033[0;32m$current_branch\033[0m"
 
 if [ $current_branch != "dev" ]; then
   echo "Ommiting version bump because current branch is ${current_branch}"
@@ -112,4 +112,5 @@ fi
 
 $editor CHANGELOG.md
 
+git add CHANGELOG.md
 git commit -m "[Auto script] Updated Changelog" CHANGELOG.md
