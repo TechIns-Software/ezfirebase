@@ -73,6 +73,11 @@ echo "Bumping version to $new_version"
 
 git flow release start "$version_num"
 
+if [ $? != 0 ]; then
+  echo "Unable to make a new release exit"
+  exit $?
+fi
+
 # Update package.json with the new version
 new_version=$(npm version ${new_version} --no-git-tag-version --no-commit-hooks --force --silent)
 
