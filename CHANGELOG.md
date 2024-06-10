@@ -1,6 +1,8 @@
 # VERSION 1.1.28
 
-Updated Release script and workflow	
+Updated Release script and workflow.
+Add Contributing.md
+Improved Documentation regarding the release of a new feature.
 
 # VERSION 1.1.0
 
