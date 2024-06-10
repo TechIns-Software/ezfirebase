@@ -17,6 +17,7 @@
 
 #!/bin/bash
 
+<<<<<<<< HEAD:git-aliases/release
 IFS=' '
 
 current_branch=$(git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,')
@@ -28,6 +29,30 @@ if [[ $current_branch != "dev" ]]; then
   exit 1
 fi
 
+========
+
+current_branch=$(git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,')
+
+echo -e "You are at branch \033[0;32$current_branch\033[0m"
+
+if [ $current_branch != "dev" ]; then
+  echo "Ommiting version bump because current branch is ${current_branch}"
+  echo "Please commit current changes, once done run"
+  echo -e "    \033[0;32git checkout dev\033[0m"
+  exit 1
+fi
+
+
+echo "Pulling any changes from remote"
+
+git pull origin dev
+
+if [ "$?" != "0" ]; then
+  echo "Unable to continue due ti unsucessfull pull"
+  exit $?
+fi
+
+>>>>>>>> dev:release.sh
 current_version=$(npm run version -s)
 
 echo "Current version: $current_version"
@@ -69,6 +94,7 @@ select bump_type in "patch - Bump into ${patch_version}" "minor - Bump into ${mi
   esac
 done <&2
 
+
 echo "Bumping version to $new_version"
 
 git flow release start "$version_num"
@@ -85,7 +111,33 @@ echo "Version bumped to $new_version"
 
 echo "Keep package-lock.json up to spec"
 npm install
+<<<<<<<< HEAD:git-aliases/release
 git commit -m "[Auto script] AutoBump Version to ${new_version}" package.json package-lock.json
 
 echo -e "\033[0;36mTo finish the release run:\033[0m"
 echo -e "\033[0;32mgit flow release finish $new_version\033[0m"
+========
+
+git commit -m "[Auto script] AutoBump Version to ${new_version}" package.json package-lock.json
+
+echo "Update Changelog"
+
+echo "# VERSION ${new_version}" | cat - CHANGELOG.md > temp && mv temp CHANGELOG.md
+
+echo "Opening editor to edit file"
+editor="$VISUAL"
+[ -z "$editor" ] && editor="$EDITOR"
+[ -z "$editor" ] && which editor >/dev/null && editor=editor
+[ -z "$editor" ] && which nano   >/dev/null && editor=nano
+[ -z "$editor" ] && which vim     >/dev/null && editor=vim
+[ -z "$editor" ] && which vi     >/dev/null && editor=vi
+[ -z "$editor" ] && editor=no_editor_found
+
+if [ "$editor" == 'no_editor_found' ]; then
+  echo "No editor has been found"
+fi
+
+$editor CHANGELOG.md
+
+git commit -m "[Auto script] Updated Changelog" CHANGELOG.md
+>>>>>>>> dev:release.sh
