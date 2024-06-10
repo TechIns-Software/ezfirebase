@@ -1,3 +1,6 @@
+# VERSION 1.1.27
+Updated Releasde script
+
 # VERSION 1.1.0
 
 1. Use callback for token receival
