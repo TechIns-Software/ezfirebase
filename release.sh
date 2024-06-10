@@ -17,19 +17,6 @@
 
 #!/bin/bash
 
-<<<<<<<< HEAD:git-aliases/release
-IFS=' '
-
-current_branch=$(git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,')
-
-echo $current_branch
-
-if [[ $current_branch != "dev" ]]; then
-  echo "Ommiting version bump because current branch is ${current_branch}" 
-  exit 1
-fi
-
-========
 
 current_branch=$(git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,')
 
@@ -52,7 +39,6 @@ if [ "$?" != "0" ]; then
   exit $?
 fi
 
->>>>>>>> dev:release.sh
 current_version=$(npm run version -s)
 
 echo "Current version: $current_version"
@@ -97,13 +83,6 @@ done <&2
 
 echo "Bumping version to $new_version"
 
-git flow release start "$version_num"
-
-if [ $? != 0 ]; then
-  echo "Unable to make a new release exit"
-  exit $?
-fi
-
 # Update package.json with the new version
 new_version=$(npm version ${new_version} --no-git-tag-version --no-commit-hooks --force --silent)
 
@@ -111,12 +90,6 @@ echo "Version bumped to $new_version"
 
 echo "Keep package-lock.json up to spec"
 npm install
-<<<<<<<< HEAD:git-aliases/release
-git commit -m "[Auto script] AutoBump Version to ${new_version}" package.json package-lock.json
-
-echo -e "\033[0;36mTo finish the release run:\033[0m"
-echo -e "\033[0;32mgit flow release finish $new_version\033[0m"
-========
 
 git commit -m "[Auto script] AutoBump Version to ${new_version}" package.json package-lock.json
 
@@ -140,4 +113,3 @@ fi
 $editor CHANGELOG.md
 
 git commit -m "[Auto script] Updated Changelog" CHANGELOG.md
->>>>>>>> dev:release.sh
