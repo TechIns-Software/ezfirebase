@@ -29,7 +29,6 @@ if [ $current_branch != "dev" ]; then
   exit 1
 fi
 
->>>>>>> fc408c0 ([Husky Hook] AutoBump Version [skip ci]):release
 current_version=$(npm run version -s)
 
 echo "Current version: $current_version"
